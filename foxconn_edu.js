@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         富学宝典test
+// @name         富学宝典
 // @namespace    https://github.com/mzyl007/eduFoxconn
 // @version      1.05
 // @description  你的工厂学习助手
