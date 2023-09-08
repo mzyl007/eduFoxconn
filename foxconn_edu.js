@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         富学宝典
 // @namespace    https://github.com/mzyl007/eduFoxconn
-// @version      1.05
+// @version      1.05_test1
 // @description  你的工厂学习助手
 // @author       Hodge
 // @license      MIT
@@ -20,14 +20,14 @@
             const FoxconnHook = document.querySelector("#FoxconnHookPlay");
             const tbchlid = document.createElement("table")
             const trchlid = document.createElement("tr")
-            const tdchlid = document.createElement("td")
+            const tdchlid = document.createElement("button")
             tdchlid.textContent = "Hello"
-            const td2chlid = document.createElement("td")
+            const td2chlid = document.createElement("button")
             td2chlid.textContent = "World"
-            tbchlid.append(trchlid)
-            trchlid.append(tdchlid)
-            trchlid.append(td2chlid)
-            FoxconnHook.append(tbchlid)
+            tbchlid.appendChild(trchlid)
+            trchlid.appendChild(tdchlid)
+            trchlid.appendChild(td2chlid)
+            FoxconnHook.appendChild(tbchlid)
         },2000);
     }else{
         setTimeout(function(){
