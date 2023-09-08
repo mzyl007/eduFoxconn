@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         富学宝典
-// @namespace    *://iedu.foxconn.com/
+// @namespace    https://github.com/mzyl007/eduFoxconn
 // @version      1.05
 // @description  注释：1.实现富学宝典的后台播放（可倍速），2.进入对应的页面自动完成视频或阅读任务，3.部分浏览器会阻止视频自动播放，需要开放对应的权限，4.执行任务的顺序是从上到下
 // @author       Hodge
