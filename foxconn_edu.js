@@ -15,52 +15,72 @@
 
 (function() {
     'use strict';
+    $("body").append("<div id='FoxconnHook'>学 习 助 手&nbsp;&nbsp</div>")
+    const FoxconnHook = document.querySelector("#FoxconnHook");
+    FoxconnHook.style.top = "100px"
+    FoxconnHook.style.left = "100px"
+    FoxconnHook.style.overflow = "hidden"
+    FoxconnHook.style.position = "fixed"
+    FoxconnHook.style.zIndex = 9999
+    FoxconnHook.style.padding = "5px"
+    FoxconnHook.style.textAlign = "center"
+    FoxconnHook.style.border="1px solid #000000"
+    FoxconnHook.style.borderRadius = "5px"
+    const button = document.createElement("button")
+    button.textContent = "＾"
+    FoxconnHook.appendChild(button)
+    const dl = document.createElement("table")
+    dl.className = "d_table"
+    button.onclick = function(){
+        if(button.textContent == "＾"){
+            document.querySelector(".d_table").style.display = "none"
+        }else{
+            document.querySelector(".d_table").style.display = "block"
+        }
+        button.textContent = button.textContent == "＾" ? "v":"＾"
+
+    }
     if(unsafeWindow.location.href.indexOf("iedu.foxconn.com/public/user/playCourse") != -1 || unsafeWindow.location.href.indexOf("iedu.foxconn.com/public/play/play") != -1){
         setTimeout(function(){
-            $("body").append("<div id='FoxconnHookPlay' style='top: 100px;left: 100px;overflow: hidden;z-index: 9999;position: fixed;padding:5px;text-align:center;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;border-top-left-radius: 4px;border-top-right-radius: 4px;'> 学习助手</div>")
-            const FoxconnHook = document.querySelector("#FoxconnHookPlay");
-            const dl = document.createElement("table")
-            dl.style.backgroundColor = "#eee"
+            dl.style.backgroundColor = "#f1b701"
             FoxconnHook.appendChild(dl)
             if(document.querySelector(".chapter")){
                 if(document.querySelector(".chapter").children[0].children.length > 0){
                     for(var i=0;document.querySelector(".chapter").children[0].children.length > i;i++){
                         const dd = document.createElement("tr")
                         const div1 = document.createElement("td")
-                        div1.innerText = document.querySelector(".chapter").children[0].children[i].title
+                        div1.textContent = document.querySelector(".chapter").children[0].children[i].title
                         const div2 = document.createElement("td")
-                        div2.innerText = ""
+                        div2.textContent = ""
                         div2.width = "10px"
                         const div3 = document.createElement("td")
-                        div3.innerText = document.querySelector(".chapter").children[0].children[i].children[1].firstChild.textContent
+                        div3.textContent = document.querySelector(".chapter").children[0].children[i].children[1].firstChild.textContent
 
                         dd.appendChild(div1)
                         dd.appendChild(div2)
                         dd.appendChild(div3)
                         dl.appendChild(dd)
-                        FoxconnHook.height = "1000px"
                     }
                 }
             }
 
-            if (document.querySelector("#realvideo").style.display != "none"){
+            if (document.querySelector("#realvideo") && document.querySelector("#realvideo").style.display != "none"){
                 console.log("视频播放")
-            }else if (document.querySelector("#pdf").style.display != "none"){
+            }else if (document.querySelector("#pdf") && document.querySelector("#pdf").style.display != "none"){
                 console.log("课件播放")
             }else{
                 console.log("什么都不做")
             }
-
-
         },2000);
     }else{
         setTimeout(function(){
-            $("body").append("<div id='FoxconnHookStudy' style='top: 60px;right: 60px;overflow: hidden;z-index: 9999;position: fixed;padding:5px;text-align:center;width: 175px;height: 100px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;border-top-left-radius: 4px;border-top-right-radius: 4px;'> 学习助手</div>");
-            const FoxconnHook = document.querySelector("#FoxconnHookStudy");
             const chlid = document.createElement("button")
             chlid.textContent = "学习该页面所有课程"
-            FoxconnHook.append(chlid)
-
+            const dd = document.createElement("tr")
+            dd.append(chlid)
+            dl.append(dd)
+            FoxconnHook.append(dl)
         },2000);
     }
+
 })();
