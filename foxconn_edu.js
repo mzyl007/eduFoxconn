@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         富学宝典
 // @namespace    https://github.com/mzyl007/eduFoxconn
-// @version      1.05_test1
+// @version      1.05_test2
 // @description  你的工厂学习助手
 // @author       Hodge
 // @license      MIT
@@ -12,22 +12,46 @@
 // ==/UserScript==
 /* globals jQuery, $, waitForKeyElements */
 
+
 (function() {
     'use strict';
     if(unsafeWindow.location.href.indexOf("iedu.foxconn.com/public/user/playCourse") != -1 || unsafeWindow.location.href.indexOf("iedu.foxconn.com/public/play/play") != -1){
         setTimeout(function(){
-            $("body").append("<div id='FoxconnHookPlay' style='top: 60px;right: 60px;overflow: hidden;z-index: 9999;position: fixed;padding:5px;text-align:center;width: 175px;height: 100px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;border-top-left-radius: 4px;border-top-right-radius: 4px;'> 学习助手</div>");
+            $("body").append("<div id='FoxconnHookPlay' style='top: 100px;left: 100px;overflow: hidden;z-index: 9999;position: fixed;padding:5px;text-align:center;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;border-top-left-radius: 4px;border-top-right-radius: 4px;'> 学习助手</div>")
             const FoxconnHook = document.querySelector("#FoxconnHookPlay");
-            const tbchlid = document.createElement("table")
-            const trchlid = document.createElement("tr")
-            const tdchlid = document.createElement("button")
-            tdchlid.textContent = "Hello"
-            const td2chlid = document.createElement("button")
-            td2chlid.textContent = "World"
-            tbchlid.appendChild(trchlid)
-            trchlid.appendChild(tdchlid)
-            trchlid.appendChild(td2chlid)
-            FoxconnHook.appendChild(tbchlid)
+            const dl = document.createElement("table")
+            dl.style.backgroundColor = "#eee"
+            FoxconnHook.appendChild(dl)
+            if(document.querySelector(".chapter")){
+                if(document.querySelector(".chapter").children[0].children.length > 0){
+                    for(var i=0;document.querySelector(".chapter").children[0].children.length > i;i++){
+                        const dd = document.createElement("tr")
+                        const div1 = document.createElement("td")
+                        div1.innerText = document.querySelector(".chapter").children[0].children[i].title
+                        const div2 = document.createElement("td")
+                        div2.innerText = ""
+                        div2.width = "10px"
+                        const div3 = document.createElement("td")
+                        div3.innerText = document.querySelector(".chapter").children[0].children[i].children[1].firstChild.textContent
+
+                        dd.appendChild(div1)
+                        dd.appendChild(div2)
+                        dd.appendChild(div3)
+                        dl.appendChild(dd)
+                        FoxconnHook.height = "1000px"
+                    }
+                }
+            }
+
+            if (document.querySelector("#realvideo").style.display != "none"){
+                console.log("视频播放")
+            }else if (document.querySelector("#pdf").style.display != "none"){
+                console.log("课件播放")
+            }else{
+                console.log("什么都不做")
+            }
+
+
         },2000);
     }else{
         setTimeout(function(){
@@ -36,6 +60,7 @@
             const chlid = document.createElement("button")
             chlid.textContent = "学习该页面所有课程"
             FoxconnHook.append(chlid)
+
         },2000);
     }
 })();
