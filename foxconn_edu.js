@@ -12,7 +12,6 @@
 // ==/UserScript==
 /* globals jQuery, $, waitForKeyElements */
 
-
 (function() {
     'use strict';
     $("body").append("<div id='FoxconnHook'>学 习 助 手&nbsp;&nbsp</div>")
@@ -38,32 +37,36 @@
             document.querySelector(".d_table").style.display = "block"
         }
         button.textContent = button.textContent == "＾" ? "v":"＾"
-
     }
     if(unsafeWindow.location.href.indexOf("iedu.foxconn.com/public/user/playCourse") != -1 || unsafeWindow.location.href.indexOf("iedu.foxconn.com/public/play/play") != -1){
         setTimeout(function(){
-            dl.style.backgroundColor = "#f1b701"
             FoxconnHook.appendChild(dl)
-            if(document.querySelector(".chapter")){
-                if(document.querySelector(".chapter").children[0].children.length > 0){
-                    for(var i=0;document.querySelector(".chapter").children[0].children.length > i;i++){
-                        const dd = document.createElement("tr")
-                        const div1 = document.createElement("td")
-                        div1.textContent = document.querySelector(".chapter").children[0].children[i].title
-                        const div2 = document.createElement("td")
-                        div2.textContent = ""
-                        div2.width = "10px"
-                        const div3 = document.createElement("td")
-                        div3.textContent = document.querySelector(".chapter").children[0].children[i].children[1].firstChild.textContent
-
-                        dd.appendChild(div1)
-                        dd.appendChild(div2)
-                        dd.appendChild(div3)
-                        dl.appendChild(dd)
+            if(document.querySelector(".chapter") && document.querySelector(".chapter").children[0].children.length > 0){
+                for(var i=0;document.querySelector(".chapter").children[0].children.length > i;i++){
+                    const dd = document.createElement("tr")
+                    const div1 = document.createElement("td")
+                    div1.textContent = document.querySelector(".chapter").children[0].children[i].title
+                    const div2 = document.createElement("td")
+                    div2.textContent = document.querySelector(".chapter").children[0].children[i].children[1].firstChild.textContent
+                    const dlresoure = document.createElement("button")
+                    dlresoure.textContent = "下载"
+                    dlresoure.width = "10px"
+                    dlresoure.id = i
+                    dlresoure.onclick = function(){
+                        document.querySelector(".chapter").children[0].children[parseInt(dlresoure.id)].onclick()
+                        if (document.querySelector("#realvideo") && document.querySelector("#realvideo").style.display != "none"){
+                           console.log(document.querySelector("#realvideo_html5_api").src)
+                        }else if (document.querySelector("#pdf") && document.querySelector("#pdf").style.display != "none"){
+                             console.log(document.querySelector("#pdf").src)
+                        }
                     }
+                    dd.style.backgroundColor = "#f1b701"
+                    dd.appendChild(div1)
+                    dd.appendChild(div2)
+                    dd.appendChild(dlresoure)
+                    dl.appendChild(dd)
                 }
             }
-
             if (document.querySelector("#realvideo") && document.querySelector("#realvideo").style.display != "none"){
                 console.log("视频播放")
             }else if (document.querySelector("#pdf") && document.querySelector("#pdf").style.display != "none"){
@@ -82,5 +85,4 @@
             FoxconnHook.append(dl)
         },2000);
     }
-
 })();
