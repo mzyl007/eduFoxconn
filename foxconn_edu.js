@@ -25,7 +25,7 @@
     FoxconnHook.style.padding = "5px"
     FoxconnHook.style.textAlign = "center"
     FoxconnHook.style.border="1px solid #000000"
-    FoxconnHook.style.borderRadius = "5px"
+    FoxconnHook.style.borderRadius = "10px"
     const button = document.createElement("button")
     button.textContent = "＾"
     FoxconnHook.appendChild(button)
