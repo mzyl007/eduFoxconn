@@ -12,35 +12,6 @@
 // ==/UserScript==
 /* globals jQuery, $, waitForKeyElements */
 
-function fileLinkToStreamDownload(url, fileName, type) {
-    console.log(url)
-    let reg = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+).)+([A-Za-z0-9-~\/])+$/;
-    if (!reg.test(url)) {
-        throw new Error("传入参数不合法,不是标准的文件链接");
-    } else {
-        let xhr = new XMLHttpRequest();
-        xhr.open('get', url, true);
-        xhr.setRequestHeader('Content-Type', `application/${type}`);
-        xhr.responseType = "blob";
-        xhr.onload = function () {
-            if (this.status == 200) {
-                //接受二进制文件流
-                console.log(this)
-                var blob = this.response;
-                const blobUrl = window.URL.createObjectURL(blob);
-                // 这里的文件名根据实际情况从响应头或者url里获取
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = fileName;
-                a.click();
-                window.URL.revokeObjectURL(blobUrl);
-            }
-        }
-        xhr.send();
-    }
-}
-
-
 (function() {
     'use strict';
     $("body").append("<div id='FoxconnHook'>学 习 助 手&nbsp;&nbsp</div>")
@@ -73,38 +44,26 @@ function fileLinkToStreamDownload(url, fileName, type) {
             if(document.querySelector(".chapter") && document.querySelector(".chapter").children[0].children.length > 0){
                 for(var i=0;document.querySelector(".chapter").children[0].children.length > i;i++){
                     const dd = document.createElement("tr")
+                    dd.id = "Hooktab"+i
                     const div1 = document.createElement("td")
                     div1.textContent = document.querySelector(".chapter").children[0].children[i].title
+                    div1.id = dd.id + "_1"
                     const div2 = document.createElement("td")
                     div2.textContent = document.querySelector(".chapter").children[0].children[i].children[1].firstChild.textContent
+                    div2.id = dd.id + "_2"
                     const dlresoure = document.createElement("button")
                     dlresoure.textContent = "下载"
                     dlresoure.width = "10px"
-                    dlresoure.id = i
+                    dlresoure.id = dd.id + "_3"
                     dlresoure.onclick = function(){
-                        document.querySelector(".chapter").children[0].children[parseInt(dlresoure.id)].onclick()
-                        const b = document.createElement("a")
-                        b.id = "donwload"
-                        b.href = "#"
+                        document.querySelector(".chapter").children[0].children[parseInt(dlresoure.id.slice(7))].onclick()
                         if (document.querySelector("#realvideo") && document.querySelector("#realvideo").style.display != "none"){
                             console.log(document.querySelector("#realvideo_html5_api").src)
-                            //window.open(document.querySelector("#realvideo_html5_api").src.toString())
-                            b.click = function(){
-                                var url = document.querySelector("#realvideo_html5_api").src
-                                var name = document.querySelector(".chapter").children[0].children[parseInt(dlresoure.id)].title
-                                fileLinkToStreamDownload(url, name+".mp4", 'mp4')
-                            }
-                            b.click()
+                            window.open(document.querySelector("#realvideo_html5_api").src.toString())
                         }else if (document.querySelector("#pdf") && document.querySelector("#pdf").style.display != "none"){
                             document.getElementsByClassName("pdfwarp dpn")[0].children[2].click();
                             console.log(document.querySelector("#pdf").src)
-                            //window.open(document.querySelector("#pdf").src.toString())
-                            b.click = function(){
-                                var url = document.querySelector("#pdf").src
-                                var name = document.querySelector(".chapter").children[0].children[parseInt(dlresoure.id)].title
-                                fileLinkToStreamDownload(url, name+".pdf", 'pdf')
-                            }
-                            b.click()
+                            window.open(document.querySelector("#pdf").src.toString())
                         }
                     }
                     dd.style.backgroundColor = "#f1b701"
