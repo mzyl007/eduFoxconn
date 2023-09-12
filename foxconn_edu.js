@@ -15,44 +15,44 @@
 // ==/UserScript==
 /* globals jQuery, $, waitForKeyElements */
 
-let reg = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+).)+([A-Za-z0-9-~\/])+$/;
-
-function fileLinkToStreamDownload(filepath, fileName, type) {
-    var head = type == "pdf" ? `application/${type}`:`video/${type}`
-    console.log(filepath)
-    GM_xmlhttpRequest({
-        method: "GET",
-        url: filepath,
-        responseType: "blob",
-        Headers:{'Content-Type': head },
-        onload : function () {
-            if (this.status == 200) {
-            //接受二进制文件流
-            console.log(this)
-            var blob = this.response;
-            const blobUrl = window.URL.createObjectURL(blob);
-            // 这里的文件名根据实际情况从响应头或者url里获取
-            const dlfile = document.createElement('a');
-            dlfile.href = blobUrl;
-            dlfile.download = fileName;
-            dlfile.click();
-            window.URL.revokeObjectURL(blobUrl);
-             }
-        },
-        onerror: function (e) {
-            console.error ('**** error ', e);
-        },
-        onabort: function (e) {
-            console.error ('**** abort ', e);
-        },
-        ontimeout: function (e) {
-            console.error ('**** timeout ', e);
-        }
-    });
-}
-
 (function() {
     'use strict';
+    function fileLinkToStreamDownload(filepath, fileName, type) {
+        var head = type == "pdf" ? `application/${type}`:`video/${type}`
+        console.log(filepath)
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: filepath,
+            responseType: "blob",
+            Headers:{'Content-Type': head },
+            onload : function () {
+                if (this.status == 200) {
+                    //接受二进制文件流
+                    console.log(this)
+                    var blob = this.response;
+                    const blobUrl = window.URL.createObjectURL(blob);
+                    // 这里的文件名根据实际情况从响应头或者url里获取
+                    const dlfile = document.createElement('a');
+                    dlfile.href = blobUrl;
+                    dlfile.style.display = 'none'
+                    dlfile.download = fileName;
+                    document.body.appendChild(dlfile)
+                    dlfile.click();
+                    window.URL.revokeObjectURL(blobUrl);
+                }
+            },
+            onerror: function (e) {
+                console.error ('**** error ', e);
+            },
+            onabort: function (e) {
+                console.error ('**** abort ', e);
+            },
+            ontimeout: function (e) {
+                console.error ('**** timeout ', e);
+            }
+        });
+    }
+
     $("body").append("<div id='FoxconnHook'>学 习 助 手&nbsp;&nbsp</div>")
     const FoxconnHook = document.querySelector("#FoxconnHook");
     FoxconnHook.style.top = "100px"
@@ -98,6 +98,7 @@ function fileLinkToStreamDownload(filepath, fileName, type) {
                         var filepath = ""
                         var filetype = ""
                         var iter = 1
+                        let reg = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+).)+([A-Za-z0-9-~\/])+$/;
                         function dlfile(){
                             document.querySelector(".chapter").children[0].children[parseInt(dlresoure.id.slice(7))].onclick()
                             if (document.querySelector("#realvideo") && document.querySelector("#realvideo").style.display != "none"){
